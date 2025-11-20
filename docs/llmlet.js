@@ -310,12 +310,12 @@ function newPeerManager(Module, peer, options) {
         }
         var conn = pm.peer.connect(dst, {reliable: true});
         var pc = newPeerConnection(id, conn);
-        pc.ready = true;
         pc.connectionStarted = Date.now();
         pm.peerConnectionSet[id] = pc;
         console.log("connecting to", dst);
         peer.printLog("connecting to " + dst);
         conn.on('open', function(){
+            pc.ready = true;
             conn.on('data', function(data) {
                 receiveChannelCB(pc, new Uint8Array(data));
             });
