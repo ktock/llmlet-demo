@@ -9,6 +9,10 @@ function newPeer(options) {
         if (options && options.printLog) options.printLog(err);
     });
     peer.on('open', options.onOpen);
+    peer.on('disconnected', () => {
+        console.log("Disconnected. Trying reconnect");
+        peer.reconnect();
+    });
     return {
         peer: peer,
         onConnection: (cb) => {connCB = cb;},
