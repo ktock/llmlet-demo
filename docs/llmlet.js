@@ -166,8 +166,7 @@ function newPeerManager(Module, peer, options) {
     function is_conn_open(conn) {
         return (conn.dataChannel != null) &&
             (conn.dataChannel.readyState == 'open') &&
-            (conn.peerConnection != null) &&
-            (conn.peerConnection.connectionState == 'connected');
+            (conn.peerConnection != null);
     }
 
     function sendData(conn, data) {
