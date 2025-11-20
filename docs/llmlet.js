@@ -918,6 +918,15 @@ function startServer(peer, module, options) {
             storageQuota: options.getStorageQuota && options.getStorageQuota() || 0,
         },
     );
+    return {
+        exit: () => {
+            try {
+                Module._emscripten_force_exit(0);
+            } catch(e) {
+                console.log(e);
+            }
+        },
+    }
 }
 
 function startClient(peer, module, options) {

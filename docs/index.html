@@ -89,6 +89,8 @@
   function getStorageQuota() { return storageQuota; }
 
   var peer;
+
+  var curServer;
   
   setTimeout(() => {
       var peerOptions = {
@@ -98,11 +100,14 @@
           peerOptions: peerOptions,
           printLog: (l) => printText(systemOutput, (new Date()).toLocaleString(undefined, {timeZoneName: 'short'}) + ' [peer] ' + l + '\n'),
           onOpen: async (id) => {
+              if (curServer != null) {
+                  curServer.exit();
+              }
               console.log('My peer ID is: ' + id);
               document.getElementById('peerid').textContent = "Peer ID: " + id;
               const params = new URLSearchParams(window.location.search);
               if (params.get('noserver') != 'true') {
-                  startServer(peer, await import('./llmlet-mod.js'), {
+                  curServer = startServer(peer, await import('./llmlet-mod.js'), {
                       output: (l) => printText(systemOutput, (new Date()).toLocaleString(undefined, {timeZoneName: 'short'}) + ' [server] ' + l),
                       getTargetNodes: getTargetNodes,
                       getStorageQuota: getStorageQuota,
